@@ -6,13 +6,20 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-
+using System.IO;
+using Microsoft.Data.SqlClient;
+using System.Data;
+using Dapper;
 namespace File_OP
 {
     public class Program
     {
         public static void Main(string[] args)
-        {
+        {   using (IDbConnection  conn=new SqlConnection("Data Source=DESKTOP-E5F4DUB\SQLEXPRESS;Initial Catalog=File_OP;Integrated Security=True; "))
+            {
+                conn.Open();
+                conn.Execute("insert into Files () valeus")
+            }
             CreateHostBuilder(args).Build().Run();
         }
 

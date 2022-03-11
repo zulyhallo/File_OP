@@ -18,19 +18,19 @@ namespace File_OP.Models
 
         public DateTime FileCreateTime { get; set; }
 
-        public int F_TaxNumber { get; set; }
+        public string TaxNumber { get; set; }
 
-        public int F_Year { get; set; }
+        public string Year { get; set; }
 
-        public int F_Month { get; set; }
+        public string Month { get; set; }
 
-        public int F_PeriodNumber { get; set; }
-        public string F_Type { get; set; }
-        public string F_Path { get; set; }
+        public string PeriodNumber { get; set; }
+        public string Type { get; set; }
+        public string Path { get; set; }
+        public string Ext { get; set; }
 
-        public string F_Hash { get; set; }
+        //public string F_Hash { get; set; }
 
-        [NotMapped]
-        public IFormFile files { get; set; }
+   
     }
 }
