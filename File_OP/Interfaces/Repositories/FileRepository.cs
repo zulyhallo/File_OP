@@ -28,14 +28,14 @@ namespace File_OP.Interfaces.Repositories
         public async Task<bool> Save(Files Files)
         {
 
-           using (var con = _dappercontext.CreateConnection())
-           {
-               var result1 = await con.ExecuteAsync("SP_SAVE", Files, CommandType.StoredProcedure);
+            using (var con = _dappercontext.CreateConnection())
+            {
+                var result1 = await con.ExecuteAsync("SP_SAVE", Files, CommandType.StoredProcedure);
 
-               var result2 = await con.QueryAsync<Files>("sp_GETFILES", Files, CommandType.StoredProcedure);
-           }
-           
-          return true;
+                var result2 = await con.QueryAsync<Files>("sp_GETFILES", Files, CommandType.StoredProcedure);
+            }
+
+            return true;
         }
 
         public IActionResult AddFilesAsync(List<IFormFile> files)
@@ -65,14 +65,27 @@ namespace File_OP.Interfaces.Repositories
 
                     }
 
-                    
-                    using (var con =_dappercontext.CreateConnection())
+
+                    using (var con = _dappercontext.CreateConnection())
                     {
                         var result = await con.QueryAsync<Files>("sp_AddFiles", Files, CommandType.StoredProcedure);
                     }
-                    return Ok(files);
-                } 
+                    
+                }
+                return Ok(files);
+            }
+            public Task<bool> Upload(List<IFormFile> File)
+            {
+                throw new NotImplementedException();
             }
 
+
+            public Task<bool> AddFiles(Files Files)
+            {
+                throw new NotImplementedException();
+            }
+        }
+    }
+}
     
 

@@ -10,9 +10,9 @@ namespace File_OP.Interfaces
 {
     public interface IFileRepository
     {
-        Task<bool> Save(Files Files);
-        Task<bool> Upload(List<IFormFile> File);
-        Task<bool> AddFiles(Files Files);
+        public Task<bool> Save(Files Files);
+        public  Task<bool> Upload(List<IFormFile> File);
+        public  Task<bool> AddFiles(Files Files);
         IActionResult AddFilesAsync(List<IFormFile> files);
     }
 }
