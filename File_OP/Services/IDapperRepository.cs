@@ -8,9 +8,9 @@ using System.Data;
 
 namespace File_OP.Services
 {
-    interface IDapperRepository: IDisposable
+    public interface IDapperRepository: IDisposable
     {
-        DbConnection GetDbconnection();
+        
         T execute_sp<T>(string query, DynamicParameters sp_params, CommandType commandType = CommandType.StoredProcedure);
         List<T> GetAll<T>(string query, DynamicParameters sp_params, CommandType commandType = CommandType.StoredProcedure);
     }

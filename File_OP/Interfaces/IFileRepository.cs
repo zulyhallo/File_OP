@@ -1,5 +1,6 @@
 ﻿using File_OP.Models;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,7 +12,7 @@ namespace File_OP.Interfaces
     {
         Task<bool> Save(Files Files);
         Task<bool> Upload(List<IFormFile> File);
-
-
+        Task<bool> AddFiles(Files Files);
+        IActionResult AddFilesAsync(List<IFormFile> files);
     }
 }

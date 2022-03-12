@@ -38,7 +38,7 @@ namespace File_OP
             {
                 c.SwaggerDoc("v1", new OpenApiInfo
                 {
-                    Title = "VERI KAYDETME",
+                    Title = "",
                     Version = "v1"
                 });
 

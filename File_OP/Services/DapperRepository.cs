@@ -32,7 +32,8 @@ namespace File_OP.Services
 
         public List<T> GetAll<T>(string query, DynamicParameters sp_params, CommandType commandType = CommandType.StoredProcedure)
         {
-            throw new NotImplementedException();
+            using IDbConnection db = new SqlConnection(_config.GetConnectionString("File_OP"));
+            return db.Query<T>(query, sp_params, commandType: commandType).ToList();
         }
 
         public DbConnection GetDbconnection()

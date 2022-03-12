@@ -18,6 +18,8 @@ using File_OP.DATA;
 using System.Data;
 using Dapper;
 using File_OP.Interfaces;
+using File_OP.Services;
+using Dapper;
 
 namespace File_OP.Controllers
 {
@@ -27,9 +29,11 @@ namespace File_OP.Controllers
     {
         private readonly IFileRepository fileRepository;
 
-        public FilesController(IFileRepository fileRepository)
+        private readonly IDapperRepository _dapperRepository;
+        public FilesController(IFileRepository fileRepository,IDapperRepository dapperRepository)
         {
             this.fileRepository = fileRepository;
+            this._dapperRepository = dapperRepository;
         }
 
         private readonly IWebHostEnvironment _webHostEnvironment;
