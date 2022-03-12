@@ -15,10 +15,10 @@ namespace File_OP
     public class Program
     {
         public static void Main(string[] args)
-        {   using (IDbConnection  conn=new SqlConnection("Data Source=DESKTOP-E5F4DUB\SQLEXPRESS;Initial Catalog=File_OP;Integrated Security=True; "))
+        {   using (IDbConnection  conn=new SqlConnection("Data Source=DESKTOP-E5F4DUB\\SQLEXPRESS;Initial Catalog=File_OP;Integrated Security=True; "))
             {
                 conn.Open();
-                conn.Execute("insert into Files () valeus")
+                conn.Execute("insert into Files () valeus");
             }
             CreateHostBuilder(args).Build().Run();
         }

@@ -29,7 +29,8 @@ namespace File_OP.Models
         public string Path { get; set; }
         public string Ext { get; set; }
 
-        //public string F_Hash { get; set; }
+        public string Hash { get; set; }
+        public int UserId { get; set; }
 
    
     }
