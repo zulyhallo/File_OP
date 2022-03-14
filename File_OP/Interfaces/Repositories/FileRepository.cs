@@ -19,12 +19,35 @@ using System.Data;
 using Dapper;
 using File_OP.Interfaces;
 using File_OP.Services;
-using Dapper;
+using File_OP.Data;
 
 namespace File_OP.Interfaces.Repositories
 {
     public class FileRepository : IFileRepository
     {
+        private readonly DapperContext _dappercontext;
+        public FileRepository(DapperContext dappercontext)
+        {
+            _dappercontext = dappercontext;
+        }
+
+        public Task<IActionResult> UploadFileAsync(List<IFormFile> file)
+        {
+            if (file == null || file.Count == 0)
+                return BadRequest();
+            
+            var FilePath = Path.Combine(Directory.GetCurrentDirectory(), file.FileName());
+
+            return FilePath;
+        }
+
+
+
+        //if public Task<bool> Save(Files Files)
+        //{
+        //    throw new NotImplementedException();
+        //}
+
         public async Task<bool> Save(Files Files)
         {
 
@@ -32,60 +55,24 @@ namespace File_OP.Interfaces.Repositories
             {
                 var result1 = await con.ExecuteAsync("SP_SAVE", Files, CommandType.StoredProcedure);
 
-                var result2 = await con.QueryAsync<Files>("sp_GETFILES", Files, CommandType.StoredProcedure);
             }
-
             return true;
         }
 
-        public IActionResult AddFilesAsync(List<IFormFile> files)
-        {
-            string FilePath = @"C:\Users\Tech\Desktop\DEFTER";
-            if (files.Count == 0)
-                return BadRequest();
-            foreach (var file in files)
-            {
-                Files Files = new Files();
-                {
-
-                    Files.Path = FilePath + file.FileName; // tekrardan bak!!!!!!!!!!!
-                    Files.FileName = file.FileName;
-                    char[] separator = new char[] { '-', '/' };
-                    string[] details = Files.FileName.Split(separator);
-
-                    Files.TaxNumber = details[0];
-                    Files.Year = details[1];
-                    Files.Month = details[2];
-                    Files.Type = details[3];
-                    Files.PeriodNumber = details[4];
-                    FileInfo fi = new FileInfo(Files.Path);
-                    {
-                        Files.FileCreateTime = fi.CreationTime;
-                        Files.Ext = fi.Extension;
-
-                    }
-
-
-                    using (var con = _dappercontext.CreateConnection())
-                    {
-                        var result = await con.QueryAsync<Files>("sp_AddFiles", Files, CommandType.StoredProcedure);
-                    }
-                    
-                }
-                return Ok(files);
-            }
-            public Task<bool> Upload(List<IFormFile> File)
-            {
-                throw new NotImplementedException();
-            }
-
-
-            public Task<bool> AddFiles(Files Files)
-            {
-                throw new NotImplementedException();
-            }
-        }
     }
 }
-    
+
+
+//public async Task<bool> Save(Files Files)
+//{
+
+//    using (var con = _dappercontext.CreateConnection())
+//    {
+//        var result1 = await con.ExecuteAsync("SP_SAVE", Files, CommandType.StoredProcedure);
+
+//        var result2 = await con.QueryAsync<Files>("sp_GETFILES", Files, CommandType.StoredProcedure);
+//    }
+
+//    return true;
+//} 
 
