@@ -32,6 +32,8 @@ namespace File_OP.Models
         public string Hash { get; set; }
         public int UserId { get; set; }
 
+        public IFormFile File {get; set;}
+
    
     }
 }

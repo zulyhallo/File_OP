@@ -20,6 +20,7 @@ using Dapper;
 using File_OP.Interfaces;
 using File_OP.Services;
 using File_OP.Data;
+using System.IO.Compression;
 
 namespace File_OP.Interfaces.Repositories
 {
@@ -30,15 +31,31 @@ namespace File_OP.Interfaces.Repositories
         {
             _dappercontext = dappercontext;
         }
+        
 
-        public Task<IActionResult> UploadFileAsync(List<IFormFile> file)
+        public  Task<IActionResult> UploadFileAsync(IFormFile file)
         {
-            if (file == null || file.Count == 0)
-                return BadRequest();
-            
-            var FilePath = Path.Combine(Directory.GetCurrentDirectory(), file.FileName());
+            if (file == null || file.Length == 0)
+            {
+               // return BadRequest();
+               return ("Dosya Seçilmedi");
+            }
+            else 
+            {
+                Files Files = new Files();
+                Files.Path = Directory.GetCurrentDirectory();
+                FileInfo fi = new FileInfo(Files.Path);
+                Files.Ext = fi.Extension;
+                Files.FileName = fi.FullName;
+                if (Files.Ext != ".xml")
+                {
+                    return Response(".xml uzantılı dosya seçilmeli");
+                }
+                else
+                    return true;
+            }
 
-            return FilePath;
+            return OK(file);
         }
 
 
@@ -53,8 +70,8 @@ namespace File_OP.Interfaces.Repositories
 
             using (var con = _dappercontext.CreateConnection())
             {
-                var result1 = await con.ExecuteAsync("SP_SAVE", Files, CommandType.StoredProcedure);
-
+                var result1 = await con.ExecuteAsync("sp_AddFiles", Files, CommandType.StoredProcedure);
+                
             }
             return true;
         }

@@ -30,6 +30,7 @@ namespace File_OP.Controllers
         private readonly IFileRepository _fileRepository;
         private readonly IDapperRepository _dapperRepository;
         private readonly IProcess _process;
+        private readonly IWebHostEnvironment _webHostEnvironment;
         public FilesController(IFileRepository fileRepository,IDapperRepository dapperRepository,ProcessRepository process)
         {
             this._fileRepository = fileRepository;
@@ -37,31 +38,39 @@ namespace File_OP.Controllers
             this._process = process;
         }
 
-        private readonly IWebHostEnvironment _webHostEnvironment;
+       
         public FilesController(IWebHostEnvironment webHostEnvironment)
         {
             _webHostEnvironment = webHostEnvironment;
         }
         [HttpPost]
         [Route("Upload")]
-        //public  IActionResult UploadFilesAsync(List<IFormFile> files)
-        //{
-        //    public Task<Files> Split(List<IFormFile> files);
 
-
-        public async Task<Files> UploadFiles(Files files)
+        #region Upload files
+        public async Task<IActionResult> UploadFileAsync(IFormFile file)
         {
-            //var response =await ProcessRepository.Split(files);
-            //if (!response)
-            //{
-            //    throw new Exception();
-            //}
-            //return response;
+            var response = await FileRepository.UploadFileAsync(file);
+            if (!response)
+            {
+                throw new Exception();
+            }
+            return response;
         }
-        public Task<Files> Split(List<IFormFile> files)
+        #endregion
+        #region Process files
+        public async  Task<Files> Split(List<IFormFile> file)
         {
-
+            var response = await ProcessRepository.Split(file);
+            if (!response)
+            {
+                throw new Exception();
+            }
+            return response;
         }
+        #endregion
+
+        #region Save Files
+        #endregion
 
 
 
@@ -129,12 +138,12 @@ namespace File_OP.Controllers
 
 
     }
-              
-
-         
 
 
-            }
+
+
+
+}
             //return Ok("yükleme tamamlandı");
 
 

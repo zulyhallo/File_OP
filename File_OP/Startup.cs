@@ -1,3 +1,4 @@
+using File_OP.Data;
 using File_OP.DATA;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -32,6 +33,8 @@ namespace File_OP
             //  services.AddDbContext<MyContext>(options =>
             //    options.UseSqlServer(Configuration.GetConnectionString("File_OP")));
             services.AddDbContext<MyContext>(options => options.UseSqlServer(Configuration.GetConnectionString("File_OP")));
+            services.AddSingleton<DapperCon>(); // Add this line to register the service
+            services.AddControllers();
 
             // REGISTER SWAGGER
             services.AddSwaggerGen(c =>

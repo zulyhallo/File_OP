@@ -2,26 +2,27 @@
 using Microsoft.Extensions.Configuration;
 using System;
 using System.Collections.Generic;
+using System.Data;
+using System.Data.SqlClient;
 using System.Linq;
 using System.Threading.Tasks;
 
 namespace File_OP.Data
 {
-    public class DapperContext
+    public class DapperCon
 
     {
+
+
         private readonly IConfiguration _configuration;
-        public DapperRepository(IConfiguration configuration)
+        public DapperCon(IConfiguration configuration)
         {
             _configuration = configuration;
         }
-        public string con = @"Data Source=TDESTEK;Initial Catalog=FSDB;Integrated Security=True;";
-
-        internal IDisposable CreateConnection()
-        {
-            open
-        }
+        public IDbConnection CreateConnection()
+            => new SqlConnection(_configuration.GetConnectionString("File_OP"));
 
 
     }
 }
+

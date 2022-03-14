@@ -12,10 +12,10 @@ namespace File_OP.Interfaces.Repositories
     {
         public Task<Files> Split(List<IFormFile> files)
         {
-            //string FilePath = @"C:\Users\Tech\Desktop\DEFTER";
-            //if (files.Count == 0)
-            //    return BadRequest();
-            //else
+            string FilePath = @"C:\Users\Tech\Desktop\DEFTER";
+            if (files.Count == 0)
+                return BadRequest();
+            else
             foreach (var file in files)
             {
                 Files Files = new Files();
@@ -38,7 +38,17 @@ namespace File_OP.Interfaces.Repositories
                     }
                 }
             }
-            return files;
+            return OK(files);
+        }
+
+        private Task<Files> BadRequest()
+        {
+            throw new NotImplementedException();
+        }
+
+        private Task<Files> OK(List<IFormFile> files)
+        {
+            throw new NotImplementedException();
         }
     }
 }
