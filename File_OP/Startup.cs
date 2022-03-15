@@ -1,5 +1,6 @@
 using File_OP.Data;
 using File_OP.DATA;
+using File_OP.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
@@ -29,6 +30,7 @@ namespace File_OP
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddTransient<IDapperRepository, DapperRepository>();
             services.AddMvc();
             //  services.AddDbContext<MyContext>(options =>
             //    options.UseSqlServer(Configuration.GetConnectionString("File_OP")));

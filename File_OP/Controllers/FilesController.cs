@@ -58,7 +58,7 @@ namespace File_OP.Controllers
         }
         #endregion
         #region Process files
-        public async  Task<Files> Split(List<IFormFile> file)
+        public async  Task<IActionResult> Split(IFormFile file)
         {
             var response = await ProcessRepository.Split(file);
             if (!response)
@@ -70,7 +70,20 @@ namespace File_OP.Controllers
         #endregion
 
         #region Save Files
+        public async Task<bool> SaveFilesAsync(Files file)
+        {
+            var response = await DapperRepository.SaveFilesAsync(file);
+            if(!response)
+            {
+                throw new Exception();
+            }
+            return true;
+            
+        }
+
         #endregion
+
+
 
 
 

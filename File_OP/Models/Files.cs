@@ -12,7 +12,7 @@ namespace File_OP.Models
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public int FileId { get; set; }
+        public int FileID{ get; set; }
 
         public string FileName { get; set; }
 
@@ -30,7 +30,7 @@ namespace File_OP.Models
         public string Ext { get; set; }
 
         public string Hash { get; set; }
-        public int UserId { get; set; }
+        public int UserID { get; set; }
 
         public IFormFile File {get; set;}
 

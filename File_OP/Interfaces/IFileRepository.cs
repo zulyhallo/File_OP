@@ -11,9 +11,8 @@ namespace File_OP.Interfaces
     public interface IFileRepository
     {
         public Task<IActionResult> UploadFileAsync(IFormFile file);
-        //public  Task<Files> UploadFileAsync(List<IFormFile> file);
-        public  Task<bool> Save(Files Files);
-    
         
+     
+    
     }
 }

@@ -12,7 +12,7 @@ namespace File_OP.Models
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public int UserId { get; set; }
+        public int UserID { get; set; }
         public string UserName { get; set; }
         public string UserPassword { get; set; }
 

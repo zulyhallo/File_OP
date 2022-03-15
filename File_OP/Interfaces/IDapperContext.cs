@@ -7,6 +7,7 @@ namespace File_OP.Interfaces
 {
     public interface IDapperContext:IDisposable
     {
+        con= 
 
     }
 }

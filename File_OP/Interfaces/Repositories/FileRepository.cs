@@ -33,7 +33,7 @@ namespace File_OP.Interfaces.Repositories
         }
         
 
-        public  Task<IActionResult> UploadFileAsync(IFormFile file)
+        public async Task<IActionResult> UploadFileAsync(IFormFile file)
         {
             if (file == null || file.Length == 0)
             {
@@ -52,7 +52,7 @@ namespace File_OP.Interfaces.Repositories
                     return Response(".xml uzantılı dosya seçilmeli");
                 }
                 else
-                    return true;
+                    return OK();
             }
 
             return OK(file);
@@ -60,26 +60,16 @@ namespace File_OP.Interfaces.Repositories
 
 
 
-        //if public Task<bool> Save(Files Files)
-        //{
-        //    throw new NotImplementedException();
-        //}
+      
 
-        public async Task<bool> Save(Files Files)
-        {
-
-            using (var con = _dappercontext.CreateConnection())
-            {
-                var result1 = await con.ExecuteAsync("sp_AddFiles", Files, CommandType.StoredProcedure);
-                
-            }
-            return true;
-        }
-
+       
     }
 }
 
-
+//if public Task<bool> Save(Files Files)
+//{
+//    throw new NotImplementedException();
+//}
 //public async Task<bool> Save(Files Files)
 //{
 

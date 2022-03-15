@@ -5,12 +5,13 @@ using System.Threading.Tasks;
 using System.IO;
 using Microsoft.AspNetCore.Http;
 using File_OP.Models;
+using Microsoft.AspNetCore.Mvc;
 
 namespace File_OP.Interfaces
 {
     public interface IProcess
     {
-        public Task<Files> Split(List<IFormFile> files);
+        public Task<IActionResult> Split(IFormFile files);
     
 
     }
