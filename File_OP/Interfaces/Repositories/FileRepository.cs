@@ -1,68 +1,59 @@
 ﻿using File_OP.Models;
-using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Hosting.Internal;
-using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Net;
-using System.Net.Http;
-using System.Net.Http.Headers;
 using System.Threading.Tasks;
-using static System.Net.WebRequestMethods;
-using System.Xml;
-using System.Xml.Linq;
-using File_OP.DATA;
-using System.Data;
-using Dapper;
-using File_OP.Interfaces;
-using File_OP.Services;
-using File_OP.Data;
-using System.IO.Compression;
 
 namespace File_OP.Interfaces.Repositories
 {
-    public class FileRepository : IFileRepository
+    public class FileRepository : IFileRepository //FileValidationService.ValidateAsync(file)
     {
         private readonly DapperContext _dappercontext;
         public FileRepository(DapperContext dappercontext)
         {
             _dappercontext = dappercontext;
         }
-        
 
-        public async Task<IActionResult> UploadFileAsync(IFormFile file)
+        public class ValidationResult
+        {
+            public bool IsSuccess { get; set; }
+            public string ErrorMessage { get; set; }
+        }
+        public async Task<ValidationResult> ValidateAsync(IFormFile file)
         {
             if (file == null || file.Length == 0)
             {
-               // return BadRequest();
-               return ("Dosya Seçilmedi");
+                // return BadRequest();
+                return new ValidationResult
+                {
+                    IsSuccess = false,
+                    ErrorMessage = "Dosya Seçilmedi"
+                };
             }
-            else 
+            else
             {
                 Files Files = new Files();
                 Files.Path = Directory.GetCurrentDirectory();
-                FileInfo fi = new FileInfo(Files.Path);
+                FileInfo fi = new FileInfo(file.FileName);
                 Files.Ext = fi.Extension;
                 Files.FileName = fi.FullName;
                 if (Files.Ext != ".xml")
                 {
-                    return Response(".xml uzantılı dosya seçilmeli");
+                    return new ValidationResult
+                    {
+                        IsSuccess = false,
+                        ErrorMessage = ".xml uzantılı dosya seçilmeli"
+                    };
                 }
                 else
-                    return OK();
+                    return new ValidationResult() { IsSuccess = true };
             }
-
-            return OK(file);
         }
 
 
 
-      
 
-       
+
+
     }
 }
 

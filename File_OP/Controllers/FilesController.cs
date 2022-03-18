@@ -1,25 +1,12 @@
-﻿using File_OP.Models;
+﻿using File_OP.Interfaces;
+using File_OP.Interfaces.Repositories;
+using File_OP.Models;
+using File_OP.Services;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Hosting.Internal;
 using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Net;
-using System.Net.Http;
-using System.Net.Http.Headers;
 using System.Threading.Tasks;
-using static System.Net.WebRequestMethods;
-using System.Xml;
-using System.Xml.Linq;
-using File_OP.DATA;
-using System.Data;
-using Dapper;
-using File_OP.Interfaces;
-using File_OP.Services;
-using File_OP.Interfaces.Repositories;
 
 namespace File_OP.Controllers
 {
@@ -31,14 +18,14 @@ namespace File_OP.Controllers
         private readonly IDapperRepository _dapperRepository;
         private readonly IProcess _process;
         private readonly IWebHostEnvironment _webHostEnvironment;
-        public FilesController(IFileRepository fileRepository,IDapperRepository dapperRepository,ProcessRepository process)
+        public FilesController(IFileRepository fileRepository, IDapperRepository dapperRepository, ProcessRepository process)
         {
             this._fileRepository = fileRepository;
             this._dapperRepository = dapperRepository;
             this._process = process;
         }
 
-       
+
         public FilesController(IWebHostEnvironment webHostEnvironment)
         {
             _webHostEnvironment = webHostEnvironment;
@@ -49,36 +36,42 @@ namespace File_OP.Controllers
         #region Upload files
         public async Task<IActionResult> UploadFileAsync(IFormFile file)
         {
-            var response = await FileRepository.UploadFileAsync(file);
-            if (!response)
+            var validationResult = await _fileRepository.ValidateAsync(file);
+            if (!validationResult.IsSuccess)
             {
-                throw new Exception();
+                return BadRequest(validationResult.ErrorMessage);
             }
-            return response;
+
+
+            //dosya yükleme işlemini yap
+
+
+            return Ok();
         }
         #endregion
         #region Process files
-        public async  Task<IActionResult> Split(IFormFile file)
+        public async Task<IActionResult> Split(IFormFile file)
         {
-            var response = await ProcessRepository.Split(file);
-            if (!response)
+            var files = await _process.SplitAsync(file);
+            if (files == null)
             {
                 throw new Exception();
             }
-            return response;
+
+            return Ok();//todo:burası düzeltilecek
         }
         #endregion
 
         #region Save Files
         public async Task<bool> SaveFilesAsync(Files file)
         {
-            var response = await DapperRepository.SaveFilesAsync(file);
-            if(!response)
+            var response = await _dapperRepository.SaveFilesAsync(file);
+            if (!response)
             {
                 throw new Exception();
             }
             return true;
-            
+
         }
 
         #endregion
@@ -157,51 +150,51 @@ namespace File_OP.Controllers
 
 
 }
-            //return Ok("yükleme tamamlandı");
+//return Ok("yükleme tamamlandı");
 
 
 
-            //   private static IWebHostEnvironment _webHostEnvironmet;
-            //   private readonly MyContext _MyContext;
-            //   public FilesController(MyContext MyContext, IWebHostEnvironment webHostEnvironmet)
-            //   {
-            //       _webHostEnvironmet = webHostEnvironmet;
-            //       _MyContext = MyContext;
-            //
-            //   }
-            //   #region XML yükleme 
-            //
-            //   [HttpPost]
-            //   [Route("UploadXML")]
-            //
-            //   public async Task<string> UploadXML([FromForm] Models.Files obj,string FileName)
-            //   {
-            //       if (obj.files.Length > 0)
-            //       {
-            //           try
-            //           {   string FilePath = @"C:\Users\Tech\Desktop\DEFTER\2021-05";
-            //               XmlDocument xmlDoc = new XmlDocument();
-            //               xmlDoc.Load(FilePath);
-            //               FileName = xmlDoc.Name;
-            //
-            //              
-            //               return  obj.files.FileName;
-            //           }
-            //
-            //           catch (Exception ex)
-            //           {
-            //
-            //               return ex.ToString();
-            //           }
-            //       }
-            //       else
-            //       {
-            //           return "Upload Failed";
-            //       }
-            //   }
-            //   #endregion
+//   private static IWebHostEnvironment _webHostEnvironmet;
+//   private readonly MyContext _MyContext;
+//   public FilesController(MyContext MyContext, IWebHostEnvironment webHostEnvironmet)
+//   {
+//       _webHostEnvironmet = webHostEnvironmet;
+//       _MyContext = MyContext;
+//
+//   }
+//   #region XML yükleme 
+//
+//   [HttpPost]
+//   [Route("UploadXML")]
+//
+//   public async Task<string> UploadXML([FromForm] Models.Files obj,string FileName)
+//   {
+//       if (obj.files.Length > 0)
+//       {
+//           try
+//           {   string FilePath = @"C:\Users\Tech\Desktop\DEFTER\2021-05";
+//               XmlDocument xmlDoc = new XmlDocument();
+//               xmlDoc.Load(FilePath);
+//               FileName = xmlDoc.Name;
+//
+//              
+//               return  obj.files.FileName;
+//           }
+//
+//           catch (Exception ex)
+//           {
+//
+//               return ex.ToString();
+//           }
+//       }
+//       else
+//       {
+//           return "Upload Failed";
+//       }
+//   }
+//   #endregion
 
-   
+
 
 
 

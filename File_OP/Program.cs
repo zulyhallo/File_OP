@@ -15,13 +15,16 @@ namespace File_OP
     public class Program
     {
         public static void Main(string[] args)
-        {   using (IDbConnection  conn=new SqlConnection("Data Source=TDESTEK;Initial Catalog=FSDB;Integrated Security=True; "))
-            {
-                conn.Open();
-                conn.Execute("insert into Files () valeus");
-            }
-            CreateHostBuilder(args).Build().Run();
-        }
+        {
+
+  
+        //{   using (IDbConnection  conn=new SqlConnection("Data Source=DESKTOP-E5F4DUB\SQLEXPRESS;Initial Catalog=FSDB;Integrated Security=True; "))
+        //    {
+        //        conn.Open();
+        //        conn.Execute("insert into Files () valeus");
+        //    }
+        //    CreateHostBuilder(args).Build().Run();
+        
 
         public static IHostBuilder CreateHostBuilder(string[] args) =>
             Host.CreateDefaultBuilder(args)

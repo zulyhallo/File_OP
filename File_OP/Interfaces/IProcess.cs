@@ -1,18 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using System.IO;
+﻿using File_OP.Models;
 using Microsoft.AspNetCore.Http;
-using File_OP.Models;
-using Microsoft.AspNetCore.Mvc;
+using System.Threading.Tasks;
 
 namespace File_OP.Interfaces
 {
     public interface IProcess
     {
-        public Task<IActionResult> Split(IFormFile files);
-    
+        public Task<Files> SplitAsync(IFormFile files);
+
 
     }
 }
